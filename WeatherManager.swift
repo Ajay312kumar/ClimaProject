@@ -6,11 +6,17 @@
 
 import Foundation
 
+protocol WeatherManagerDelegate {
+    
+    func didUpdateWeather(weather: WeatherModel)
+    
+}
+
 struct WeatherManager {
     
     let weatherUrl = "https://api.openweathermap.org/data/2.5/weather?lat=44.34&lon=10.99&appid=87654745f6f96fc6b3e187258dc908b1&q=london&units=metric"
     
-    
+    var delegate: WeatherManagerDelegate?
     func fetchWether(cityName: String){
         let urlString = "\(weatherUrl)&q=\(cityName)"
         print(urlString)
@@ -32,7 +38,7 @@ struct WeatherManager {
                     return
                 }
                 if let safeData = data {
-                    jsonParsing(weatherData: safeData)
+                    let weather =  self.jsonParsing(weatherData: safeData)
                 }
             }
             //4. start the task
@@ -41,7 +47,7 @@ struct WeatherManager {
         
     }
     
-    func jsonParsing(weatherData: Data){
+    func jsonParsing(weatherData: Data) -> WeatherModel? {
         
         let decoder = JSONDecoder()
         do {
@@ -53,11 +59,12 @@ struct WeatherManager {
             let temp = decodeData.main.temp
             let name = decodeData.name
             let weather = WeatherModel(conditionId: id, temprature: temp, cityName: name)
-        
+            return weather
             print(weather.conditionName)
             //print("visibility",decodeData.visibility)
         }catch{
             print(error)
+            return nil
         }
         
     }

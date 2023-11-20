@@ -5,7 +5,9 @@
 
 import UIKit
 
-class WeatherViewController: UIViewController,UITextFieldDelegate {
+class WeatherViewController: UIViewController,UITextFieldDelegate,WeatherManagerDelegate {
+   
+    
 
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
@@ -55,5 +57,8 @@ class WeatherViewController: UIViewController,UITextFieldDelegate {
         
     }
     
+    func didUpdateWeather(weather: WeatherModel) {
+        print(weather.temprature)
+    }
 }
 
