@@ -13,6 +13,12 @@ struct  WeatherModel{
     let temprature: Double
     let cityName: String
     
+    
+    var tempratureString: String {
+        
+        return String(format: "%.1f", temprature)
+    }
+    
     var conditionName: String {
         switch conditionId {
             
